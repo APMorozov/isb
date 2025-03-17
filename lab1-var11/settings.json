@@ -2,7 +2,8 @@
   "task1" : {
     "plain_text" : "task1/plain_text.txt",
     "encrypted_text" : "task1/encrypted_text.txt",
-    "key" : "task1/key.json"
+    "key" : "task1/key.json",
+    "alphabets" : "task1/alphabets.json"
   },
 
   "task2" : {

@@ -13,16 +13,20 @@ def vigenere(plain_text: str, key: str, alphabet: str) -> str:
     if key == "":
         raise Exception("ERROR!Key can`t be empty")
 
+    plain_text_tolower = plain_text.lower()
+    key_tolower = key.lower()
+    print(plain_text_tolower)
     alphabet_dict = {symbol: index for index, symbol in enumerate(alphabet)}
+    print(alphabet_dict)
     encrypted_answer = ''
 
-    for i in range(len(plain_text)):
-        current_key = i % len(key)
-        if abs(alphabet_dict.get(plain_text[i]) + alphabet_dict.get(key[current_key])) > len(alphabet):
-            decode_symbol = alphabet_dict.get(plain_text[i]) + alphabet_dict.get(key[current_key]) - len(alphabet)
+    for i in range(len(plain_text_tolower)):
+        current_key = i % len(key_tolower)
+        if abs(alphabet_dict.get(plain_text_tolower[i]) + alphabet_dict.get(key_tolower[current_key])) >= len(alphabet):
+            decode_symbol = alphabet_dict.get(plain_text_tolower[i]) + alphabet_dict.get(key_tolower[current_key]) - len(alphabet)
             encrypted_answer += alphabet[decode_symbol]
         else:
-            encrypted_answer += alphabet[alphabet_dict.get(plain_text[i]) + alphabet_dict.get(key[current_key])]
+            encrypted_answer += alphabet[alphabet_dict.get(plain_text_tolower[i]) + alphabet_dict.get(key_tolower[current_key])]
     return encrypted_answer
 
 
