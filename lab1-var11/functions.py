@@ -18,6 +18,33 @@ def read_json(path: str) -> tuple[str, str]:
         raise Exception(f"An error occurred when opening the file {exc}")
 
 
+def write_json(path: str, data: dict[str, int]) -> None:
+    """
+    write data to json file
+    :param path: path to json file
+    :param data: data to file
+    :return: None
+    """
+    try:
+        with open(path, mode="w", encoding="utf-8") as file:
+            return json.dump(data, file)
+    except FileNotFoundError as not_found:
+        raise FileNotFoundError(f"File was not found: {not_found}")
+    except Exception as exc:
+        raise Exception(f"An error occurred when opening the file {exc}")
+
+
+def sort_json(path) -> None:
+    """
+    sort json file and rewrite them
+    :param path: path to json file
+    :return: None
+    """
+    data = read_json(path)
+    data = dict(sorted(data.items(), key=lambda item: item[1], reverse=True))
+    write_json(path, data)
+
+
 def read_text(path: str) -> str:
     """
     read text file
