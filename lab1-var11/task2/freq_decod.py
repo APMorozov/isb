@@ -1,7 +1,13 @@
 from functions import write_json, read_json,write_text
 
 
-def get_freq(encrypted_text: str, path_to_json):
+def get_freq(encrypted_text: str, path_to_json: str) -> None:
+    """
+    compute freq from file and write this data to json
+    :param encrypted_text: text
+    :param path_to_json: path to json file
+    :return: None
+    """
     freq = {}
     for elm in encrypted_text:
         freq[elm] = 0
@@ -13,9 +19,15 @@ def get_freq(encrypted_text: str, path_to_json):
 
 
 def decode(encrypted_text: str, path_to_file: str, path_to_map_json) -> None:
+    """
+    decode text with mapping file
+    :param encrypted_text: text
+    :param path_to_file: path to file where will write decrypted text
+    :param path_to_map_json: json file with mapping
+    :return: None
+    """
     mapping = read_json(path_to_map_json)
     data = encrypted_text
     for elm in mapping:
-        print(elm)
         data = data.replace(elm, mapping.get(elm))
     write_text(path_to_file, data)

@@ -74,4 +74,3 @@ def write_text(path: str, data: str) -> None:
         raise FileNotFoundError(f"File wasn`t found: {not_found}")
     except Exception as exc:
         raise Exception(f"An error occurred when opening the file {exc}")
-

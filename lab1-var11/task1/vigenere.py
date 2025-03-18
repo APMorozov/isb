@@ -15,9 +15,7 @@ def vigenere(plain_text: str, key: str, alphabet: str) -> str:
 
     plain_text_tolower = plain_text.lower()
     key_tolower = key.lower()
-    print(plain_text_tolower)
     alphabet_dict = {symbol: index for index, symbol in enumerate(alphabet)}
-    print(alphabet_dict)
     encrypted_answer = ''
 
     for i in range(len(plain_text_tolower)):

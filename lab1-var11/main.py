@@ -1,6 +1,6 @@
 from functions import read_json, read_text, write_text, sort_json
 from task1.vigenere import vigenere, decode_vigenere
-from task2.freq_decod import get_freq,decode
+from task2.freq_decod import get_freq, decode
 
 if __name__ == "__main__":
     try:
