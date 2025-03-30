@@ -34,7 +34,7 @@ def write_json(path: str, data: dict[str, int]) -> None:
         raise Exception(f"An error occurred when opening the file {exc}")
 
 
-def sort_json(path) -> None:
+def sort_json(path: str) -> None:
     """
     sort json file and rewrite them
     :param path: path to json file
