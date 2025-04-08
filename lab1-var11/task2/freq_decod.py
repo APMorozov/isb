@@ -1,4 +1,4 @@
-from functions import write_json, read_json,write_text
+from functions import write_json, read_json, write_text
 
 
 def get_freq(encrypted_text: str, path_to_json: str) -> None:
