@@ -4,17 +4,21 @@ import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.net.InetSocketAddress;
-
 import java.util.concurrent.ThreadLocalRandom;
 
 public class JsonServer {
 
-    public static void gpsch(int begin, int end){
-        int random = ThreadLocalRandom.current().nextInt(begin, end);
-        System.out.println(random);
+    public static int gpsch(int begin, int end) {
+        return ThreadLocalRandom.current().nextInt(begin, end);
+    }
+
+    public static String get_sequence() {
+        StringBuilder sequence = new StringBuilder();
+        for (int i = 0; i < 128; ++i) {
+            sequence.append(gpsch(0, 2)); // генерируем 0 или 1
+        }
+        return sequence.toString();
     }
 
     public static void main(String[] args) throws IOException {
@@ -23,22 +27,19 @@ public class JsonServer {
             @Override
             public void handle(HttpExchange exchange) throws IOException {
                 if ("GET".equals(exchange.getRequestMethod())) {
-                    String jsonContent;
-                    try {
-                        jsonContent = new String(Files.readAllBytes(Paths.get("C:\\Users\\moroz\\OneDrive\\Desktop\\2 kurs\\itsec\\test\\last var\\src\\data2.json")));
-                        System.out.println("json open");
-                    } catch (IOException e) {
-                        System.out.println("json not open");
-                        jsonContent = "{}";
-                    }
+                    // Генерируем последовательность
+                    String sequence = get_sequence();
+                    // Формируем JSON-ответ
+                    String response = "{\"sequence\":\"" + sequence + "\"}";
                     
-
                     exchange.getResponseHeaders().set("Content-Type", "application/json");
-                    exchange.sendResponseHeaders(200, jsonContent.getBytes().length);
+                    exchange.sendResponseHeaders(200, response.getBytes().length);
                     
                     OutputStream os = exchange.getResponseBody();
-                    os.write(jsonContent.getBytes());
+                    os.write(response.getBytes());
                     os.close();
+                } else {
+                    exchange.sendResponseHeaders(405, -1); // Method Not Allowed
                 }
             }
         });
