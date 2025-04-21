@@ -16,7 +16,7 @@ public class JsonServer {
     public static String get_sequence() {
         StringBuilder sequence = new StringBuilder();
         for (int i = 0; i < 128; ++i) {
-            sequence.append(gpsch(0, 2)); // генерируем 0 или 1
+            sequence.append(gpsch(0, 2));
         }
         return sequence.toString();
     }
@@ -27,9 +27,7 @@ public class JsonServer {
             @Override
             public void handle(HttpExchange exchange) throws IOException {
                 if ("GET".equals(exchange.getRequestMethod())) {
-                    // Генерируем последовательность
                     String sequence = get_sequence();
-                    // Формируем JSON-ответ
                     String response = "{\"sequence\":\"" + sequence + "\"}";
                     
                     exchange.getResponseHeaders().set("Content-Type", "application/json");
@@ -39,7 +37,7 @@ public class JsonServer {
                     os.write(response.getBytes());
                     os.close();
                 } else {
-                    exchange.sendResponseHeaders(405, -1); // Method Not Allowed
+                    exchange.sendResponseHeaders(405, -1);
                 }
             }
         });

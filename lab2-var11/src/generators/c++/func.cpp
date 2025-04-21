@@ -49,6 +49,5 @@ std::string get_sequence() {
 		int bit = gpsch(0, 1);
 		sequence += std::to_string(bit);
 	}
-	std::cout << sequence << std::endl;
 	return sequence;
 }
