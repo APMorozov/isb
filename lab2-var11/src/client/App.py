@@ -1,5 +1,6 @@
 from func import get_response, read_json, write_json
 from parcer import parce_random
+from tests import bit_frequency_test, consecutive_bits_test, longest_sequence_block
 
 
 class App:
@@ -8,10 +9,13 @@ class App:
     urls = read_json(settings["urls"])
 
     def print_old_sequences(self):
-        sequences = read_json(self.settings["sequences"])
-        print(f"C++ sequence {sequences["c++_sequence"]}")
-        print(f"Java sequence {sequences["java_sequence"]}")
-        print(f"Random.org sequence {sequences["random.org_sequence"]}")
+        try:
+            sequences = read_json(self.settings["sequences"])
+            print(f"C++ sequence {sequences["c++_sequence"]}")
+            print(f"Java sequence {sequences["java_sequence"]}")
+            print(f"Random.org sequence {sequences["random.org_sequence"]}")
+        except Exception as exc:
+            print("Error!Can not print sequences. ", exc)
 
     def start_print(self):
         print("Request action:")
@@ -21,32 +25,105 @@ class App:
         print("4)Exit")
 
     def take_new_sequences(self):
-        json_data1 = get_response(self.urls["c++_server_url"])
+        try:
+            json_data1 = get_response(self.urls["c++_server_url"])
 
-        json_data2 = get_response(self.urls["java_server_url"])
+            json_data2 = get_response(self.urls["java_server_url"])
 
-        sequence = parce_random((self.urls["random.org_url"]))
-        sequences = ({"c++_sequence": json_data1["sequence"], "java_sequence": json_data2["sequence"],
-                      "random.org_sequence": sequence})
-        write_json("sequences.json", sequences)
+            sequence = parce_random((self.urls["random.org_url"]))
+            sequences = ({"c++_sequence": json_data1["sequence"], "java_sequence": json_data2["sequence"],
+                          "random.org_sequence": sequence})
+            write_json("sequences.json", sequences)
+        except Exception as exc :
+            print("Error!Can not take sequences. ", exc)
 
-    def cls(self):
-        print("\n" * 100)
+    def check_c_plus_plus_seq(self):
+        flag = True
+        sequences = read_json(self.settings["sequences"])
+        test = bit_frequency_test(sequences["c++_sequence"])
+        print("First test: ", test)
+        if test < 0.01:
+            flag = False
+
+        test = consecutive_bits_test(sequences["c++_sequence"])
+        print("Second test: ", test)
+        if test < 0.01:
+            flag = False
+
+        test = longest_sequence_block(sequences["c++_sequence"])
+        print("Third test: ", test)
+        if test < 0.01:
+            flag = False
+        return flag
+
+    def check_java_seq(self):
+        flag = True
+        sequences = read_json(self.settings["sequences"])
+        test = bit_frequency_test(sequences["java_sequence"])
+        print("First test: ", test)
+        if test < 0.01:
+            flag = False
+
+        test = consecutive_bits_test(sequences["java_sequence"])
+        print("Second test: ", test)
+        if test < 0.01:
+            flag = False
+
+        test = longest_sequence_block(sequences["java_sequence"])
+        print("Third test: ", test)
+        if test < 0.01:
+            flag = False
+        return flag
+
+    def check_random_seq(self):
+        flag = True
+        sequences = read_json(self.settings["sequences"])
+        test = bit_frequency_test(sequences["random.org_sequence"])
+        print("First test: ", test)
+        if test < 0.01:
+            flag = False
+
+        test = consecutive_bits_test(sequences["random.org_sequence"])
+        print("Second test: ", test)
+        if test < 0.01:
+            flag = False
+
+        test = longest_sequence_block(sequences["random.org_sequence"])
+        print("Third test: ", test)
+        if test < 0.01:
+            flag = False
+        return flag
+    def check_sequences(self):
+        try:
+            if self.check_c_plus_plus_seq():
+               print("C++ sequence is random\n")
+            if self.check_java_seq():
+                print("Java sequence is random\n")
+            if self.check_random_seq():
+                print("Random.org sequence is random\n")
+
+        except Exception as exc:
+            print("Error!Can not check sequences. ", exc)
+
+
+
+    def space(self):
+        print("\n" * 3)
 
     def start(self):
         while self.is_work:
             self.start_print()
-            action = input("Input number 1-4 ")
-            self.cls()
+            action = input("Input number 1-4: ")
+            self.space()
             match action:
                 case '1':
                     self.take_new_sequences()
                     print("sequences taken")
                 case '2':
-                    print("Case 2")
+                    self.check_sequences()
                 case '3':
                     self.print_old_sequences()
                 case '4':
                     self.is_work = False
                 case _:
-                    print("Input number 1-4 ")
+                    print("Input number 1-4!!! Input:")
