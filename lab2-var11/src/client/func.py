@@ -3,6 +3,14 @@ import json
 
 
 def get_response(url: str) -> json:
+    """
+    get sequences from url.
+    Args:
+        url: url where server hosted
+
+    Returns: json{"sequence": value }
+
+    """
     try:
         response = requests.get(url)
         if response.status_code == 200:
@@ -16,7 +24,7 @@ def get_response(url: str) -> json:
 
 def read_json(path: str) -> tuple[str, str]:
     """
-    Read json file
+    Read json file.
     :param path: path to json file
     :return: tuple of data
     """
@@ -30,9 +38,10 @@ def read_json(path: str) -> tuple[str, str]:
     except Exception as exc:
         raise Exception(f"An error occurred when opening the file {exc}")
 
+
 def write_json(path: str, data: dict[str, int]) -> None:
     """
-    write data to json file
+    write data to json file.
     :param path: path to json file
     :param data: data to file
     :return: None

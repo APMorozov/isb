@@ -2,7 +2,15 @@ from LxmlSoup import LxmlSoup
 import requests
 
 
-def parce_random(url: str):
+def parce_random(url: str) -> str:
+    """
+    Parce sequence from Random.org.
+    Args:
+        url: url
+
+    Returns: sequence
+
+    """
     try:
         response = requests.get(url)
         if response.status_code == 200:

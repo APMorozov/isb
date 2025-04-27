@@ -3,8 +3,16 @@ import math
 import scipy.special
 
 
-
 def bit_frequency_test(sequence: str):
+    """
+    NIST test.Performs bit frequency analysis in a binary sequence.
+    Args:
+        sequence: random binary sequence
+
+    Returns: the probability that the sequence is random
+
+    """
+
     x_i = 0
     for ch in sequence:
         match ch:
@@ -12,12 +20,19 @@ def bit_frequency_test(sequence: str):
                 x_i += -1
             case '1':
                 x_i += 1
-    s_n = 0.0
     s_n = abs(x_i) / math.sqrt(len(sequence))
     return math.erfc(s_n / math.sqrt(2))
 
 
 def consecutive_bits_test(sequence: str) -> float:
+    """
+    Checks a sequence for identical consecutive bits.
+    Args:
+        sequence: random binary sequence
+
+    Returns: the probability that the sequence is random
+
+    """
     n = len(sequence)
     p = sequence.count('1') / n
     if abs(p - 0.5) < (2 / math.sqrt(n)):
@@ -30,6 +45,15 @@ def consecutive_bits_test(sequence: str) -> float:
 
 
 def longest_sequence_block(sequence: str) -> float:
+    """
+    Splits the sequence into 8-bit blocks.Distributes blocks into groups based on the maximum length '1'.
+    Compute probability.
+    Args:
+        sequence: random binary sequence
+
+    Returns: the probability that the sequence is random
+
+    """
     v_i = [0, 0, 0, 0]
     pi_i = [0.2148, 0.3672, 0.2305, 0.1875]
     start = 0
