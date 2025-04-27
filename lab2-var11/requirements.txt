@@ -1,0 +1,7 @@
+Jinja2==3.1.6
+lxmlsoup==1.6
+PyYAML==6.0.2
+PyYAML==6.0.2
+Requests==2.32.3
+scipy==1.15.2
+watchdog==6.0.0
