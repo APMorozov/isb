@@ -43,18 +43,18 @@ def consecutive_bits_test(sequence: str) -> float:
         return pvalue
 
 
-def longest_sequence_block(sequence: str) -> float:
+def longest_sequence_block(sequence: str, pi_i: list[int]) -> float:
     """
     Splits the sequence into 8-bit blocks.Distributes blocks into groups based on the maximum length '1'.
     Compute probability.
     Args:
         sequence: random binary sequence
+        pi_i: pi_i constants
 
     Returns: the probability that the sequence is random
 
     """
     v_i = [0, 0, 0, 0]
-    pi_i = [0.2148, 0.3672, 0.2305, 0.1875]
     start = 0
     while start != len(sequence):
         max_count = 0
@@ -77,6 +77,6 @@ def longest_sequence_block(sequence: str) -> float:
     hi_2 = 0.0
     for i in range(4):
         hi_2 += pow(v_i[i] - 16 * pi_i[i], 2) / (16 * pi_i[i])
-    pvalue = scipy.special.gammainc(3/2, (hi_2/2))
+    pvalue = scipy.special.gammaincc(3/2, (hi_2/2))
     return pvalue
 

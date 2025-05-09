@@ -4,12 +4,12 @@ from tests import bit_frequency_test, consecutive_bits_test, longest_sequence_bl
 
 
 class App:
-    _P_VALUE_THRESHOLD = 0.01
-
     def __init__(self):
         self._is_work = True
         self._settings = read_json("settings.json")
+        self._p_value_threshold = self._settings["p_value_threshold"]
         self._urls = read_json(self._settings["urls"])
+        self._pi_i = self._settings["pi_i"]
 
     def _print_old_sequences(self) -> None:
         """
@@ -52,13 +52,13 @@ class App:
         tests = [
             ("Bit Frequency Test", bit_frequency_test(sequence)),
             ("Consecutive Bits Test", consecutive_bits_test(sequence)),
-            ("Longest Sequence Block", longest_sequence_block(sequence))
+            ("Longest Sequence Block", longest_sequence_block(sequence,self._pi_i))
         ]
 
         flag = True
         for test_name, result in tests:
             print(f"{test_name}: {result}")
-            if result < self._P_VALUE_THRESHOLD:
+            if result < self._p_value_threshold:
                 flag = False
 
         return flag
