@@ -1,0 +1,6 @@
+{
+  "keys": "settings//keys.json",
+  "plain_text": "texts//plain.txt",
+  "decrypted_text": "texts//decrypted.txt",
+  "encrypted_text": "texts//encrypted.txt"
+}
