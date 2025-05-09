@@ -1,6 +1,12 @@
 {
-  "keys": "settings//keys.json",
-  "plain_text": "texts//plain.txt",
-  "decrypted_text": "texts//decrypted.txt",
-  "encrypted_text": "texts//encrypted.txt"
+  "texts":{
+    "plain_text": "texts//plain.txt",
+    "decrypted_text": "texts//decrypted.txt",
+    "encrypted_text": "texts//encrypted.txt"
+},
+  "keys": {
+    "encrypt_symmetric_key": "settings//encrypt_symmetric_key.txt",
+    "private_key": "settings//private_key.txt",
+    "public_key": "settings//public_key.txt"
+  }
 }
