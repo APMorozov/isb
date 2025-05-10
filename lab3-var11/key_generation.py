@@ -1,6 +1,7 @@
 import os
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.serialization import load_pem_public_key, load_pem_private_key
 
 
 def gen_symmetric(len_key: int) -> bytes:
@@ -17,6 +18,14 @@ def serialize_symmetric(path: str, symmetric_key: bytes) -> None:
     try:
         with open(path, "wb") as file:
             file.write(symmetric_key)
+    except Exception as exc:
+        raise Exception(f"Error!!!Serialize symmetric key: {exc}")
+
+
+def deserialize_symmetric(path: str) -> bytes:
+    try:
+        with open(path, "rb") as file:
+            return file.read()
     except Exception as exc:
         raise Exception(f"Error!!!Serialize symmetric key: {exc}")
 
@@ -66,3 +75,21 @@ class Asymmetric:
                 )
         except Exception as exc:
             raise Exception(f"Error!!!Serialize private key: {exc}")
+
+    def deserialize_public(self, file_path: str) -> rsa.RSAPublicKey:
+        try:
+            with open(file_path, 'rb') as file:
+                public_bytes = file.read()
+                d_public_key = load_pem_public_key(public_bytes)
+                return d_public_key
+        except Exception as exc:
+            raise Exception(f"Error!!!Deserialize public key: {exc}")
+
+    def deserialize_private(self, file_path: str) -> rsa.RSAPrivateKey:
+        try:
+            with open(file_path, 'rb') as file:
+                public_bytes = file.read()
+                d_public_key = load_pem_private_key(public_bytes, password=None)
+                return d_public_key
+        except Exception as exc:
+            raise Exception(f"Error!!!Deserialize public key: {exc}")
