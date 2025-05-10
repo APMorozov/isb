@@ -30,7 +30,7 @@ def deserialize_symmetric(path: str) -> bytes:
         raise Exception(f"Error!!!Serialize symmetric key: {exc}")
 
 
-class Asymmetric:
+class AsymmetricKeys:
     def gen_asymmetric(self) -> tuple:
         keys = rsa.generate_private_key(
             public_exponent=65537,

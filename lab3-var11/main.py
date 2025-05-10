@@ -1,16 +1,15 @@
 import os
 
-from key_generation import gen_symmetric, Asymmetric, serialize_symmetric, deserialize_symmetric
-from file_work import read_json, read_txt
-from encryption import Encryption
-from decription import Decription
+from crypto_system.file_work import (read_json, read_txt, serialize_public, serialize_private, serialize_symmetric,
+                                     deserialize_public, deserialize_private, deserialize_symmetric)
+from crypto_system.Symmetric import Symmetric
+from crypto_system.Asymmetric import Asymmetric
 
 
 if __name__ == "__main__":
-    symmetric_key = gen_symmetric(128)
     asym = Asymmetric()
-    enc = Encryption()
-    dec = Decription()
+    sym = Symmetric()
+    symmetric_key = sym.gen_symmetric(128)
     keys = asym.gen_asymmetric()
     iv = os.urandom(16)
 
@@ -19,13 +18,13 @@ if __name__ == "__main__":
     path_file_txt = settings["texts"]
     text = read_txt(path_file_txt["plain_text"])
 
-    asym.serialize_public(path_file_keys["public_key"], keys[0])
-    asym.serialize_private(path_file_keys["private_key"], keys[1])
+    serialize_public(path_file_keys["public_key"], keys[0])
+    serialize_private(path_file_keys["private_key"], keys[1])
 
-    c_text = enc.encrypt_text(text, symmetric_key, iv)
-    enc_sym_key = enc.encrypt_symmetric_key(symmetric_key, asym.deserialize_public(path_file_keys["public_key"]))
+    c_text = sym.encrypt_text(text, symmetric_key, iv)
+    enc_sym_key = asym.encrypt_symmetric_key(symmetric_key, deserialize_public(path_file_keys["public_key"]))
     serialize_symmetric(path_file_keys["encrypt_symmetric_key"], enc_sym_key)
     new_enc_sym_key = deserialize_symmetric(path_file_keys["encrypt_symmetric_key"])
-    new_sym_key = dec.decrypt_symmetric_key(new_enc_sym_key, asym.deserialize_private(path_file_keys["private_key"]))
-    dc_text = dec.decription(c_text, new_sym_key, iv)
+    new_sym_key = asym.decrypt_symmetric_key(new_enc_sym_key, deserialize_private(path_file_keys["private_key"]))
+    dc_text = sym.decript_text(c_text, new_sym_key, iv)
     print(dc_text.decode("UTF-8"))
