@@ -1,8 +1,7 @@
-from crypto_system.file_work import (read_json, read_txt, write_bytes_txt, write_text_txt, serialize_public, serialize_private, serialize_symmetric,
-                                     deserialize_public, deserialize_private, deserialize_symmetric)
 from crypto_system.Asymmetric import Asymmetric
 from crypto_system.Symmetric import Symmetric
-import os
+from crypto_system.file_work import (read_json, read_txt, write_bytes_txt, write_text_txt, serialize_public,
+                                     serialize_private, serialize_symmetric, deserialize_private, deserialize_symmetric)
 
 
 class App:
@@ -15,7 +14,11 @@ class App:
         except Exception as exp:
             print("Can not find setting file in default path!!!You can input new path.")
 
-    def start_message(self):
+    def start_message(self) -> None:
+        """
+        Print start message
+        :return: None
+        """
         print("Request action:")
         print("1)Get path to settings.json file")
         print("2)Generate keys")
@@ -25,9 +28,17 @@ class App:
         print("Input number 1-5:")
 
     def space(self) -> None:
+        """
+        make some space in terminal
+        :return: None
+        """
         print('\n' * 3)
 
-    def app(self):
+    def app(self) -> None:
+        """
+        The application launch function, which includes all the capabilities of the crypto system
+        :return: None
+        """
         while self._is_work:
             self.start_message()
             action = input()
@@ -66,7 +77,7 @@ class App:
                         enc_text = read_txt(self._settings["texts"]["encrypted_text"])
                         enc_sym_key = deserialize_symmetric(self._settings["keys"]["encrypt_symmetric_key"])
                         dec_sym_key = Asymmetric.decrypt_symmetric_key(enc_sym_key, deserialize_private(self._settings["keys"]["private_key"]))
-                        dec_text = Symmetric.decript_text(enc_text, dec_sym_key, self._iv)
+                        dec_text = Symmetric.decrypt_text(enc_text, dec_sym_key, self._iv)
                         write_text_txt(self._settings["texts"]["decrypted_text"], dec_text.decode("UTF-8"))
                         print("Text decrypted")
                     except Exception as exc:

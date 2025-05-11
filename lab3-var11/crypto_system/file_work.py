@@ -1,7 +1,7 @@
-import json
-from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.serialization import load_pem_public_key, load_pem_private_key
+import json
 
 
 def read_json(path: str) -> tuple[str, str]:
@@ -22,6 +22,11 @@ def read_json(path: str) -> tuple[str, str]:
 
 
 def read_txt(path: str) -> bytes:
+    """
+    read txt file
+    :param path: path to file
+    :return: data from file
+    """
     try:
         with open(path, "rb") as file:
             return file.read()
@@ -32,6 +37,12 @@ def read_txt(path: str) -> bytes:
 
 
 def write_bytes_txt(path: str, text: bytes) -> None:
+    """
+    write data(bytes) in txt file
+    :param path: path to txt file
+    :param text: text to file
+    :return: None
+    """
     try:
         with open(path, "wb") as file:
             file.write(text)
@@ -42,6 +53,12 @@ def write_bytes_txt(path: str, text: bytes) -> None:
 
 
 def write_text_txt(path: str, text: str) -> None:
+    """
+    write data(default text) in txt file
+    :param path: path to file
+    :param text: text to file
+    :return: None
+    """
     try:
         with open(path, "w") as file:
             file.write(text)
@@ -91,6 +108,11 @@ def serialize_private(file_path: str, private_key: rsa.RSAPrivateKey) -> None:
 
 
 def deserialize_public(file_path: str) -> rsa.RSAPublicKey:
+    """
+    Deserialize public key
+    :param file_path: path to file where contains key
+    :return: public key
+    """
     try:
         with open(file_path, 'rb') as file:
             public_bytes = file.read()
@@ -101,6 +123,12 @@ def deserialize_public(file_path: str) -> rsa.RSAPublicKey:
 
 
 def deserialize_private(file_path: str) -> rsa.RSAPrivateKey:
+    """
+
+    Deserialize private key
+    :param file_path: path to file where contains key
+    :return: private key
+    """
     try:
         with open(file_path, 'rb') as file:
             public_bytes = file.read()
@@ -111,6 +139,12 @@ def deserialize_private(file_path: str) -> rsa.RSAPrivateKey:
 
 
 def serialize_symmetric(path: str, symmetric_key: bytes) -> None:
+    """
+    Serialize symmetric key
+    :param path: path to file where will contains key
+    :param symmetric_key: symmetric key
+    :return: None
+    """
     try:
         with open(path, "wb") as file:
             file.write(symmetric_key)
@@ -119,6 +153,11 @@ def serialize_symmetric(path: str, symmetric_key: bytes) -> None:
 
 
 def deserialize_symmetric(path: str) -> bytes:
+    """
+    Deserialize symmetric key
+    :param path: path to file where contains key
+    :return: symmetric key
+    """
     try:
         with open(path, "rb") as file:
             return file.read()
