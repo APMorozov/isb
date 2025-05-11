@@ -8,5 +8,6 @@
     "encrypt_symmetric_key": "settings//encrypt_symmetric_key.txt",
     "private_key": "settings//private_key.txt",
     "public_key": "settings//public_key.txt"
-  }
+  },
+  "len_of_key": 128
 }

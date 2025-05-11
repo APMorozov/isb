@@ -28,7 +28,27 @@ def read_txt(path: str) -> bytes:
     except FileNotFoundError as not_found:
         raise FileNotFoundError(f"File was not found: {not_found}")
     except Exception as exc:
-        raise Exception(f"An error occurred when opening the file {exc}")
+        raise Exception(f"An error occurred when opening the txt file {exc}")
+
+
+def write_bytes_txt(path: str, text: bytes) -> None:
+    try:
+        with open(path, "wb") as file:
+            file.write(text)
+    except FileNotFoundError as not_found:
+        raise FileNotFoundError(f"File was not found: {not_found}")
+    except Exception as exc:
+        raise Exception(f"An error occurred when write the txt file {exc}")
+
+
+def write_text_txt(path: str, text: str) -> None:
+    try:
+        with open(path, "w") as file:
+            file.write(text)
+    except FileNotFoundError as not_found:
+        raise FileNotFoundError(f"File was not found: {not_found}")
+    except Exception as exc:
+        raise Exception(f"An error occurred when write the txt file {exc}")
 
 
 def serialize_public(file_path: str, public_key: rsa.RSAPublicKey) -> None:
