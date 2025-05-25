@@ -1,10 +1,22 @@
-from task.find_collision import FindCollision
+from task.CrackHash import CrackHash
+from task.file_work import read_json
 
+if __name__ == "__main__":
+    settings = read_json("settings.json")
+    start_const = settings["start_const"]
+    card_number = "5520609999992315"
 
-generator = FindCollision.generate_number("523444", "2335")
+    print(f"Target hash: {start_const["hash"]}")
 
-if FindCollision.check_number("e4d09db1a7cb6b495dfdb572c2e4a669f71efd04ca9650a788974cb66698d23392928fdc5bb76ad9e1d36ecdcddc7ad53ff5c626077bd522ffac314698499335", "250034"):
-    print("Yes")
-else:
-    print("No")
+    result = ""
+
+    for bin in start_const["tbank_mastercard_bins"]:
+        result = CrackHash.find_collision(bin, start_const["last_four"], start_const["hash"], 14)
+        if result is not None:
+            print(f"Result: {result}")
+            break
+
+    check_number = CrackHash.luhn_algorithm(result)
+    print(check_number)
+
 
