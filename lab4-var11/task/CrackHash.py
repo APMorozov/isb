@@ -1,7 +1,8 @@
 import itertools
-from typing import Generator
-import multiprocessing as mp
 import hashlib
+import multiprocessing as mp
+from typing import Generator
+
 
 
 class CrackHash:
@@ -44,7 +45,7 @@ class CrackHash:
         return None
 
     @staticmethod
-    def find_collision(bin: list[str], last_four: str, target_hash: str, num_process: int = 3) -> str | None:
+    def find_collision(bin: list[str], last_four: str, target_hash: str, num_process: int = 4) -> str | None:
         """
         find collision by brute force
         :param bin: bin
@@ -53,16 +54,12 @@ class CrackHash:
         :param num_process: num of process
         :return: if hash cracked -> card number, else -> None
         """
-        if num_process != 3:
-            num_process = min(mp.cpu_count(), 3)
 
         with mp.Pool(processes=num_process) as pool:
             numbers = CrackHash.generate_numbers(bin, last_four)
             pairs = ((target_hash, num) for num in numbers)
 
-            for i, result in enumerate(pool.map(CrackHash.check_number, pairs)):
-                if i % 10000 == 0:
-                    print(f"Checked {i} numbers")
+            for result in pool.map(CrackHash.check_number, pairs):
 
                 if result is not None:
                     pool.terminate()

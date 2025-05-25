@@ -1,7 +1,12 @@
 import matplotlib.pyplot as plt
 
 
-def plot(results):
+def plot(results: list[list[int | float]]) -> None:
+    """
+    make plot
+    :param results: list[count of cores; time]
+    :return: None
+    """
 
     cores = [item[0] for item in results]
     times = [item[1] for item in results]
