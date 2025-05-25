@@ -1,5 +1,7 @@
 from task.CrackHash import CrackHash
-from task.file_work import read_json
+from task.file_work import read_json, write_json
+from task.time_meter import time_meter
+from task.visualization import plot
 
 if __name__ == "__main__":
     settings = read_json("settings.json")
@@ -8,15 +10,8 @@ if __name__ == "__main__":
 
     print(f"Target hash: {start_const["hash"]}")
 
-    result = ""
+    time_result = time_meter(start_const["tbank_mastercard_bins"], start_const["last_four"], start_const["hash"])
+    print(f"Time result: {time_result}")
+    write_json(time_result, "task/time_results.json")
 
-    for bin in start_const["tbank_mastercard_bins"]:
-        result = CrackHash.find_collision(bin, start_const["last_four"], start_const["hash"], 14)
-        if result is not None:
-            print(f"Result: {result}")
-            break
-
-    check_number = CrackHash.luhn_algorithm(result)
-    print(check_number)
-
-
+    plot(time_result)

@@ -44,7 +44,7 @@ class CrackHash:
         return None
 
     @staticmethod
-    def find_collision(bin: str, last_four: str, target_hash: str, num_process: int = 3) -> str | None:
+    def find_collision(bin: list[str], last_four: str, target_hash: str, num_process: int = 3) -> str | None:
         """
         find collision by brute force
         :param bin: bin

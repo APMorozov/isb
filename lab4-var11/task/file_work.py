@@ -1,6 +1,16 @@
 import json
 
 
+def write_json(results: list[list[int | float]], filename: str) -> None:
+    try:
+        with open(filename, 'w') as f:
+            json.dump(results, f)
+    except FileNotFoundError as not_found:
+        raise FileNotFoundError(f"File was not found: {not_found}")
+    except Exception as exc:
+        raise Exception(f"An error occurred when opening the file {exc}")
+
+
 def read_json(path: str) -> tuple[str, str]:
     """
     Read json file.
